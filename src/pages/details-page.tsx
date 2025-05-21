@@ -173,7 +173,7 @@ export default function DetailsPage() {
 
           <div className="w-full lg:w-4/6">
             <div className="w-full">
-              {post.template === 'image-middle' && post.midImageLink ? (
+              {post.template === 'image-middle' && post.imageLink ? (
                 (() => {
                   const paragraphs = post.description.split('\n');
                   const midIndex = Math.floor(paragraphs.length / 2);
@@ -182,7 +182,7 @@ export default function DetailsPage() {
                       {paragraphs.map((paragraph, index) => (
                         <>
                           {index === midIndex && (
-                            <img src={post.midImageLink} alt="middle" className="w-full max-h-60 object-cover rounded mb-6" />
+                            <img src={post.imageLink} alt="middle" className="w-full max-h-60 object-cover rounded mb-6" />
                           )}
                           {paragraph.trim() ? (
                             <p key={index} className="mb-4 leading-7 text-light-secondary dark:text-dark-secondary sm:text-lg">
@@ -194,12 +194,12 @@ export default function DetailsPage() {
                     </>
                   );
                 })()
-              ) : post.template === 'quote-start' && post.quote ? (
+              ) : post.template === 'quote-start' ? (
                 <>
                   <blockquote className="mb-6 border-l-4 border-purple-400 pl-4 italic text-lg text-gray-700 dark:text-gray-300">
-                    {post.quote}
+                    {post.description.split('\n')[0]}
                   </blockquote>
-                  {post.description.split('\n').map((paragraph, index) => (
+                  {post.description.split('\n').slice(1).map((paragraph, index) => (
                     paragraph.trim() ? (
                       <p key={index} className="mb-4 leading-7 text-light-secondary dark:text-dark-secondary sm:text-lg">
                         {paragraph}

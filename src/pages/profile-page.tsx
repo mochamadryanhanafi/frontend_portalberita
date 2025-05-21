@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
-  const { token, loading, _id } = useAuthData();
+  const { token, loading } = useAuthData();
   const [activeTab, setActiveTab] = useState('favorites');
   const [favorites, setFavorites] = useState<Post[]>([]);
   const [saved, setSaved] = useState<Post[]>([]);

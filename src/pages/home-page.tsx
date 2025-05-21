@@ -5,7 +5,6 @@ import Post from '@/types/post-type';
 import { PostCardSkeleton } from '@/components/skeletons/post-card-skeleton';
 import Header from '@/layouts/header-layout';
 import axiosInstance from '@/helpers/axios-instance';
-import { categories } from '@/utils/category-colors';
 import BannerAd from '@/components/banner-ad';
 import PopularPostsSection from '@/components/popular-posts-section';
 
@@ -37,7 +36,7 @@ function HomePage() {
         <BannerAd position="home_top" />
         
         {/* Hot News section displays all posts */}    
-        <BlogFeed posts={posts} loading={loading} />
+        <BlogFeed />
         {posts.length === 0 && !loading && (
           <div className="text-center text-gray-500 py-8">No posts available.</div>
         )}
