@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import UserAvatar from './useravatar';
+import UserAvatar from './UserAvatar';
 import LogOutIcon from '@/assets/svg/logout-icon.svg';
 import userState from '@/utils/user-state';
 import { AxiosError, isAxiosError } from 'axios';

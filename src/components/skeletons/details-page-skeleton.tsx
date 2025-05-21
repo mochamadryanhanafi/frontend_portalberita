@@ -1,5 +1,4 @@
 import { Skeleton } from '@/components/ui/skeleton';
-import CategoryPill from '@/components/category-pill';
 
 export const DetailsPageSkeleton = () => {
   return (

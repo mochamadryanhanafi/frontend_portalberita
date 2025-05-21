@@ -5,7 +5,6 @@ import Post from '@/types/post-type';
 import { PostCardSkeleton } from '@/components/skeletons/post-card-skeleton';
 import Header from '@/layouts/header-layout';
 import axiosInstance from '@/helpers/axios-instance';
-import CategoryPostsSection from '@/components/category-posts-section';
 import { categories } from '@/utils/category-colors';
 import BannerAd from '@/components/banner-ad';
 import PopularPostsSection from '@/components/popular-posts-section';
