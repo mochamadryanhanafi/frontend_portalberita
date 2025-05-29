@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import ThemeToggle from '@/components/theme-toggle-button';
 import AddIcon from '@/assets/svg/add-icon-white.svg';
 import LogInIcon from '@/assets/svg/login-icon.svg';
-import AppIcon from '@/assets/svg/app-icon.svg';
+import AppIcon from '@/assets/svg/nav-banner-logo.png';
 import Hero from '@/components/hero';
 import Loader from '@/components/skeletons/loader';
 import useAuthData from '@/hooks/useAuthData';

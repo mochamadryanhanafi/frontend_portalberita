@@ -29,8 +29,13 @@ export const signUpSchema = z
     path: ['confirmPassword'],
   });
 const isValidImageLink = (value: string) => {
+  // Check for standard image extensions
   const imageLinkRegex = /\.(jpg|jpeg|png|webp)$/i;
-  return imageLinkRegex.test(value);
+  
+  // Check for Google Drive links
+  const googleDriveRegex = /https:\/\/drive\.google\.com\/(file\/d\/|open\?id=|thumbnail\?id=)([a-zA-Z0-9_-]+)/i;
+  
+  return imageLinkRegex.test(value) || googleDriveRegex.test(value);
 };
 export const formBlogSchema = z.object({
   title: z.string().refine((value) => value.trim().split(/\s+/).length >= 3, {

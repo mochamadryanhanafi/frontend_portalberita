@@ -49,7 +49,7 @@ const BlogSearch = ({ onSearch }: BlogSearchProps) => {
         <div className="relative">
           <input
             type="text"
-            placeholder="Search by blog title..."
+            placeholder="Search by blog title or author name..."
             value={searchTerm}
             onChange={handleSearchChange}
             onKeyPress={handleKeyPress}

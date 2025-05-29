@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AddGoogleIcon from '@/assets/svg/google-color-icon.svg';
 // import AddGithubIcon from '@/assets/svg/github-icon.svg';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,30 +19,46 @@ function signin() {
 
       if (isGoogleCallback && !toastShownRef.current) {
         try {
-          const response = await axiosInstance.get('/api/auth/check');
-          const { user } = response.data;
-          if (user && user._id && user.role) {
-            userState.setUser({
-              _id: user._id,
-              role: user.role,
-              fullName: user.fullName,
-              avatar: user.avatar
-            });
-            navigate('/');
-            if (!toastShownRef.current) {
-              toast.success('Successfully logged in with Google');
-              toastShownRef.current = true;
+          // Add a delay to ensure cookies are properly set before checking
+          setTimeout(async () => {
+            try {
+              // Log the cookies for debugging
+              console.log('Cookies available:', document.cookie);
+              
+              const response = await axiosInstance.get('/api/auth/check');
+              const { user } = response.data;
+              if (user && user._id && user.role) {
+                userState.setUser({
+                  _id: user._id,
+                  role: user.role,
+                  fullName: user.fullName,
+                  avatar: user.avatar
+                });
+                navigate('/');
+                if (!toastShownRef.current) {
+                  toast.success('Successfully logged in with Google');
+                  toastShownRef.current = true;
+                }
+              } else {
+                console.error('User data is incomplete:', user);
+                toast.error('Incomplete user data received');
+              }
+              window.history.replaceState({}, document.title, window.location.pathname);
+            } catch (error) {
+              console.error('Error handling Google login:', error);
+              if (error.response) {
+                console.error('Response status:', error.response.status);
+                console.error('Response data:', error.response.data);
+              }
+              if (!toastShownRef.current) {
+                toast.error('Failed to log in with Google. Please try again.');
+                toastShownRef.current = true;
+              }
             }
-          } else {
-            console.error('User data is incomplete:', user);
-          }
-          window.history.replaceState({}, document.title, window.location.pathname);
-        } catch (error) {
-          console.error('Error handling Google login:', error);
-          if (!toastShownRef.current) {
-            toast.error('Failed to log in with Google');
-            toastShownRef.current = true;
-          }
+          }, 1000); // 1 second delay to ensure cookies are set
+        } catch (outerError) {
+          console.error('Outer error in Google callback:', outerError);
+          toast.error('An unexpected error occurred');
         }
       }
     };
@@ -69,10 +85,8 @@ function signin() {
       <div className="m-2 mt-8 flex flex-col items-center justify-center gap-2">
         <div className="mt-2 flex w-5/6 flex-col items-center justify-center gap-4 text-center text-sm font-normal dark:text-dark-primary sm:text-base">
           <p>
-            Don't have an account?
-            <Link to={'/signup'} className="text-blue-600 hover:text-blue-500">
-              {' '} Sign up now
-            </Link>
+            
+            
           </p>
         </div>
 

@@ -21,7 +21,8 @@ const AdminBlogs = () => {
       let url = '/api/posts';
       
       if (searchTerm) {
-        url += `?title=${encodeURIComponent(searchTerm)}`;
+        // Search by both title and authorName
+        url += `?search=${encodeURIComponent(searchTerm)}`;
       }
       
       const response = await axiosInstance.get(url);

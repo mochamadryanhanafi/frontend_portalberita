@@ -75,12 +75,35 @@ function FormBlog({ type, postId, post }: FormBlogPropType) {
     setValue('imageLink', selectedImage);
     setmodal(false);
   };
+  
+  // Function to format Google Drive URLs to thumbnail format
+  const formatGoogleDriveUrl = (url: string) => {
+    // Check if it's a Google Drive URL
+    const googleDriveRegex = /https:\/\/drive\.google\.com\/(file\/d\/|open\?id=|thumbnail\?id=)([a-zA-Z0-9_-]+)/i;
+    const match = url.match(googleDriveRegex);
+    
+    if (match && match[2]) {
+      // Extract the file ID and format as thumbnail URL
+      const fileId = match[2];
+      return `https://drive.google.com/thumbnail?id=${fileId}&sz=w700`;
+    }
+    
+    // Return original URL if not a Google Drive URL
+    return url;
+  };
+  
   const handleCheckboxChange = () => {
     setValue('isFeaturedPost', !formData.isFeaturedPost);
   };
   
   const onSumbit = async () => {
     try {
+      // Format Google Drive URL if present
+      if (formData.imageLink) {
+        const formattedImageLink = formatGoogleDriveUrl(formData.imageLink);
+        setValue('imageLink', formattedImageLink);
+      }
+      
       let postPromise;
       if (type === 'new') {
         postPromise = axiosInstance.post('/api/posts/', formData);
@@ -178,7 +201,7 @@ function FormBlog({ type, postId, post }: FormBlogPropType) {
             <input
               {...register('title')}
               type="text"
-              placeholder="Travel Bucket List for this Year"
+              placeholder="Make world better"
               autoComplete="off"
               className="dark:text-textInField mb-1 w-full rounded-lg bg-slate-200 p-3 placeholder:text-sm placeholder:text-light-tertiary dark:bg-dark-field dark:text-dark-textColor dark:placeholder:text-dark-tertiary"
               value={formData.title}
@@ -211,7 +234,7 @@ function FormBlog({ type, postId, post }: FormBlogPropType) {
             <input
               {...register('authorName')}
               type="text"
-              placeholder="Shree Sharma"
+              placeholder="Ryan Hanafi"
               className="dark:text-textInField mb-1 w-full rounded-lg bg-slate-200 p-3 placeholder:text-sm placeholder:text-light-tertiary dark:bg-dark-field dark:text-dark-textColor dark:placeholder:text-dark-tertiary"
               value={formData.authorName}
             />
@@ -302,9 +325,9 @@ function FormBlog({ type, postId, post }: FormBlogPropType) {
         <div className="border rounded-lg p-4 bg-white dark:bg-dark-field">
           <div>
             <h2 className="text-xl font-bold mb-2">{formData.title}</h2>
-            <p className="mb-2">{formData.description}</p>
             <img src={formData.imageLink} alt="cover" className="w-full max-h-60 object-cover rounded mb-2" />
             <div className="text-sm text-gray-500">By {formData.authorName}</div>
+            <p className="mb-2">{formData.description}</p>
           </div>
         </div>
       </div>

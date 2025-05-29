@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import FeaturedPostCard from '@/components/featured-post-card';
 import LatestPostCard from '@/components/latest-post-card';
@@ -6,6 +5,7 @@ import { FeaturedPostCardSkeleton } from '@/components/skeletons/featured-post-c
 import { LatestPostCardSkeleton } from '@/components/skeletons/latest-post-card-skeleton';
 import CategoryPill from '@/components/category-pill';
 import { categories } from '@/utils/category-colors';
+import axiosInstance from '@/helpers/axios-instance';
 
 export default function BlogFeed() {
   const [selectedCategory, setSelectedCategory] = useState('featured');
@@ -20,22 +20,27 @@ export default function BlogFeed() {
         : `/api/posts/categories/${selectedCategory}`;
 
     setLoading(true);
-    axios
-      .get(import.meta.env.VITE_API_PATH + categoryEndpoint)
+    axiosInstance
+      .get(categoryEndpoint)
       .then((response) => {
-        setPosts(response.data);
+        // Handle both response formats - direct array or nested in posts property
+        const postsData = response.data.posts || response.data;
+        setPosts(postsData);
         setLoading(false);
       })
       .catch((error) => {
         console.error(error);
+        setLoading(false);
       });
   }, [selectedCategory]);
 
   useEffect(() => {
-    axios
-      .get(import.meta.env.VITE_API_PATH + '/api/posts/latest')
+    axiosInstance
+      .get('/api/posts/latest')
       .then((response) => {
-        setLatestPosts(response.data);
+        // Handle both response formats - direct array or nested in posts property
+        const latestPostsData = response.data.posts || response.data;
+        setLatestPosts(latestPostsData);
       })
       .catch((error) => {
         console.error(error);

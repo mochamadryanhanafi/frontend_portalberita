@@ -29,8 +29,6 @@ export default function DetailsPage() {
   const [relatedCategoryPosts, setRelatedCategoryPosts] = useState<Post[]>([]);
   const [relatedPostsLoading, setRelatedPostsLoading] = useState<boolean>(false);
   const [isDarkMode, setIsDarkMode] = useState<boolean | null>(null);
-  const [isFavorite, setIsFavorite] = useState(false);
-
   const userData = useAuthData();
 
   useEffect(() => {
@@ -40,7 +38,7 @@ export default function DetailsPage() {
 
   useEffect(() => {
     if (userData.token && postId) {
-      checkIsFavorite();
+     ;
     }
   }, [userData.token, postId]);
 
@@ -50,16 +48,6 @@ export default function DetailsPage() {
     }
   }, [postId]);
 
-  const checkIsFavorite = async () => {
-    try {
-      const response = await axiosInstance.get(`/api/favorites/check/${postId}`);
-      if (response.data.success) {
-        setIsFavorite(response.data.isFavorite);
-      }
-    } catch (error) {
-      console.error('Error checking favorite status:', error);
-    }
-  };
 
   const handleDeleteClick = async () => {
     let url = `/api/posts/${postId}`;
